@@ -17,3 +17,6 @@ class Graphics:
     def draw_map(self):
         self.screen.fill(graphics_components.Color.SKY)
         self.draw_ground()
+
+    def blit(self, obj):
+        self.screen.blit(obj.img, (obj.x, obj.y))

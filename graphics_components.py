@@ -1,7 +1,7 @@
 import pygame
 
 tiles_path = "./images/PNG/Tiles"
-adventurer_path = "./images/PNG/Characters/Adventurer"
+adventurer_path = "./images/PNG/Characters/Adventurer/Poses"
 
 ground_flat = pygame.image.load("./images/PNG/Tiles/platformPack_tile001.png")
 
