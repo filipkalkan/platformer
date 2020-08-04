@@ -7,18 +7,20 @@ pressed_keys = set()
 def game_loop():
     global pressed_keys
     while True:
+        g.clear()
+        g.draw_map()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 raise SystemExit
-            elif event.type == (pygame.KEYDOWN or pygame.KEYUP):
+            elif event.type in (pygame.KEYDOWN, pygame.KEYUP):
                 pressed_keys = update_keys()
 
-            for obj in Character.all_movable_objects:
-                obj.do_movement(pressed_keys)
+        for obj in Character.all_movable_objects:
+            obj.do_movement(pressed_keys)
+            g.blit(obj)
 
             pygame.display.update()
 
-#TODO: Fix key parsing
 def update_keys():
     new_pressed_keys = set()
     pressed = pygame.key.get_pressed()
@@ -31,7 +33,7 @@ def update_keys():
 def init_world():
     g.draw_map()
     keys_dict = {"w":"up", "a":"left", "s":"down", "d":"right"}
-    player1 = Character(graphics_components.Characters.Adventurer.standing, (500, 300), graphics, keys_dict)
+    player1 = Character(graphics_components.Characters.Adventurer.standing, (500, 300), g, keys_dict)
     g.blit(player1)
 
 

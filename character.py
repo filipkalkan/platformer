@@ -1,10 +1,10 @@
 import pygame
-from game_object import Movable_game_object
+from gameobject import MovableGameObject
 
 
-class Character(Movable_game_object):
+class Character(MovableGameObject):
 
-    def __init__(self, img, coordinates, graphics, keys_dict, speed=0.1):
+    def __init__(self, img, coordinates, graphics, keys_dict, speed=1):
         super().__init__(img, coordinates, graphics, keys_dict)
         self.speed = speed
 
@@ -25,9 +25,16 @@ class Character(Movable_game_object):
 
     def move_right(self):
         self.x += self.speed
+        self.left = self.x
+        self.right = self.x + self.width
 
     def move_left(self):
         self.x -= self.speed
+        self.left = self.x
+        self.right = self.x + self.width
 
     def jump(self):
+        pass
+
+    def crouch(self):
         pass
