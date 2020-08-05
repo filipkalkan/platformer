@@ -1,7 +1,7 @@
 import pygame, graphics, graphics_components
 from character import Character
 
-g = [0] * 1
+g, clock = [0] * 2
 pressed_keys = set()
 
 def game_loop():
@@ -20,6 +20,7 @@ def game_loop():
             g.blit(obj)
 
             pygame.display.update()
+            clock.tick(120)
 
 def update_keys():
     new_pressed_keys = set()
@@ -38,6 +39,8 @@ def init_world():
 
 
 def run():
+    global clock
+    clock = pygame.time.Clock()
     pygame.init()
     init_display()
     init_world()
