@@ -1,11 +1,14 @@
 import pygame, graphics_components
-from gameobject import EnvironmentGameObject
+from gameobject import EnvironmentGameObject, MovableGameObject
 
 
 class Graphics:
 
-    def __init__(self, screen):
-        self.screen = screen
+    def __init__(self, display):
+        self.display = display
+        self.screen = display.get_surface()
+        self.dirty_rects = []
+        self.new_rects = []
 
     def draw_ground(self):
         block = graphics_components.ground_flat
@@ -41,7 +44,17 @@ class Graphics:
         self.draw_middle_piece()
 
     def blit(self, obj):
-        self.screen.blit(obj.img, (obj.x, obj.y))
+        if isinstance(obj, MovableGameObject):
+            background_surface = pygame.Surface((obj.rect.width, obj.rect.height))
+            background_surface.fill(graphics_components.Color.SKY)
+            self.screen.blit(background_surface, (obj.prev_x, obj.prev_y))
+            self.dirty_rects.append(background_surface.get_rect())
+
+        self.screen.blit(obj.img, (obj.rect.x, obj.rect.y))
+        self.new_rects.append(obj.rect)
 
     def clear(self):
         self.screen.fill(graphics_components.Color.SKY)
+
+    def update(self):
+        self.display.update(self.dirty_rects + self.new_rects)

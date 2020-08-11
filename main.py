@@ -1,14 +1,16 @@
-import pygame, graphics, graphics_components
+import pygame, graphics_components
 from character import Character
+from graphics import Graphics
 
 g, clock = [0] * 2
 pressed_keys = set()
 
 def game_loop():
     global pressed_keys
+    g.clear()
+    g.draw_map()
+    pygame.display.update()
     while True:
-        g.clear()
-        g.draw_map()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 raise SystemExit
@@ -19,8 +21,8 @@ def game_loop():
             obj.do_movement(pressed_keys)
             g.blit(obj)
 
-            pygame.display.update()
-            clock.tick(120)
+            g.update()
+            clock.tick(200)
 
 def update_keys():
     new_pressed_keys = set()
@@ -34,7 +36,7 @@ def update_keys():
 def init_world():
     g.draw_map()
     keys_dict = {"w":"up", "a":"left", "s":"down", "d":"right"}
-    player1 = Character(graphics_components.Characters.Adventurer.standing, (500, 300), g, keys_dict)
+    player1 = Character(graphics_components.Characters.Adventurer.standing, (500, 450), g, keys_dict)
     g.blit(player1)
 
 
@@ -54,8 +56,7 @@ def init_display():
     logo = pygame.image.load("./images/weapon_logo.png")
     pygame.display.set_caption("Platformer")
     pygame.display.set_icon(logo)
-    screen = pygame.display.get_surface()
-    g = graphics.Graphics(screen)
+    g = Graphics(pygame.display)
 
 
 if __name__ == '__main__':
